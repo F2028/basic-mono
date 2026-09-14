@@ -1,20 +1,20 @@
-import { Property } from "../game/Property";
-import { Player } from "../game/Player";
+import { Property } from "../Property";
+import { Player } from "../Player";
 export class SellProperty{
 
     public sortPropertyPrice(properties:Property[]):Property[]{
-        return [...properties].sort((propertyA , propertyB) => propertyA.price - propertyB.price);
+        return [...properties].sort((propertyA , propertyB) => propertyA.getPrice()- propertyB.getPrice());
     }
 
     public calculateSellValue(price:number):number{
         return price * 0.20;
     }
     public confrimSell(player:Player , property:Property):void{
-        player.addMoney(this.calculateSellValue(property.price))
+        player.receive(this.calculateSellValue(property.getPrice()))
         
         player.removeProperty(property);
-        property.owner = null;
+        property.setOwner(null);
 
-        property.rentpool.clear();
+        property.clearRentPool();
     }
 }
